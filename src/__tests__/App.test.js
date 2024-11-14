@@ -1,10 +1,14 @@
-import React from 'react';
-import { render } from '@testing-library/react';
-import App from '../App';
+// src/App.js
 
-describe('<App /> component', () => {
-	test('renders list of events', () => {
-		const AppDOM = render(<App />).container.firstChild;
-		expect(AppDOM.querySelector('#event-list')).toBeInTheDocument();
-	});
-});
+import EventList from './components/EventList';
+import './App.css';
+
+const App = () => {
+	return (
+		<div className="App">
+			<EventList />
+		</div>
+	);
+};
+
+export default App;
