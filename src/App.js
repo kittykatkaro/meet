@@ -5,7 +5,8 @@ import './App.css';
 function App() {
 	return (
 		<div className="App">
-			<h1>Treffen</h1>
+			<h1>Meet App</h1>
+			<div id="event-list">{/* Your actual events goes here */}</div>
 		</div>
 	);
 }
