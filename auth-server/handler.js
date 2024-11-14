@@ -75,8 +75,10 @@ module.exports.getAccessToken = async (event) => {
 };
 
 module.exports.getCalendarEvents = async (event) => {
-	const { access_token } = JSON.parse(event.body);
-
+	// Decode authorization code extracted from the URL query
+	const access_token = decodeURIComponent(
+		`${event.pathParameters.access_token}`
+	);
 	oAuth2Client.setCredentials({ access_token });
 
 	return new Promise((resolve, reject) => {
@@ -97,14 +99,14 @@ module.exports.getCalendarEvents = async (event) => {
 		);
 	})
 		.then((results) => {
-			// Respond with calendar events
+			// Respond with OAuth token
 			return {
 				statusCode: 200,
 				headers: {
 					'Access-Control-Allow-Origin': '*',
 					'Access-Control-Allow-Credentials': true,
 				},
-				body: JSON.stringify(results.data.items),
+				body: JSON.stringify({ events: results.data.items }),
 			};
 		})
 		.catch((error) => {
