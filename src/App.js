@@ -1,3 +1,4 @@
+// src/App.js
 import React from 'react';
 import EventList from './components/EventList';
 import './App.css';
@@ -9,4 +10,5 @@ const App = () => {
 		</div>
 	);
 };
+
 export default App;
