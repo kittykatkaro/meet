@@ -1,6 +1,6 @@
 // src/__tests__/CitySearch.test.js
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import CitySearch from '../components/CitySearch';
 
@@ -22,7 +22,7 @@ describe('<CitySearch /> component', () => {
 		const CitySearchComponent = render(<CitySearch />);
 		const user = userEvent.setup();
 		const cityTextBox = CitySearchComponent.queryByRole('textbox');
-		await user.click(cityTextBox);
+		fireEvent.focus(cityTextBox);
 		const suggestionList = CitySearchComponent.queryByRole('list');
 		expect(suggestionList).toBeInTheDocument();
 		expect(suggestionList).toHaveClass('suggestions');
