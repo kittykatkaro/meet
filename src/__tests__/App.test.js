@@ -3,6 +3,7 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import App from '../App';
 import EventList from '../components/EventList';
+import CitySearch from '../components/CitySearch';
 
 describe('<App /> component', () => {
 	test('renders list of events', () => {
@@ -21,7 +22,7 @@ describe('<App /> component', () => {
 		});
 
 		test('render CitySearch', () => {
-			const AppDOM = render().container.firstChild;
+			const AppDOM = render(<App />).container.firstChild;
 			expect(AppDOM.querySelector('#city-search')).toBeInTheDocument();
 		});
 	});
