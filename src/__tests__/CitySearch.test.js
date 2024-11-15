@@ -3,8 +3,7 @@ import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import CitySearch from '../components/CitySearch';
-import { getEvents } from '../api';
-import { extractLocations } from '../api';
+import { extractLocations, getEvents } from '../api';
 
 describe('<CitySearch /> component', () => {
 	let CitySearchComponent;
@@ -23,7 +22,6 @@ describe('<CitySearch /> component', () => {
 	});
 
 	test('renders a list of suggestions when city textbox gains focus', async () => {
-		const user = userEvent.setup();
 		const cityTextBox = CitySearchComponent.queryByRole('textbox');
 		fireEvent.focus(cityTextBox);
 		const suggestionList = CitySearchComponent.queryByRole('list');
