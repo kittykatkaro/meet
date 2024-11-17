@@ -38,7 +38,7 @@ describe('<CitySearch /> component', () => {
 
 		// user types "Berlin" in city textbox
 		const cityTextBox = CitySearchComponent.queryByRole('textbox');
-		fireEvent.focus(cityTextBox, 'Berlin');
+		fireEvent.change(cityTextBox, 'Berlin');
 
 		// filter allLocations to locations matching "Berlin"
 		const suggestions = allLocations
