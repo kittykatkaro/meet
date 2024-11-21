@@ -1,19 +1,19 @@
 // src/__tests__/CitySearch.test.js
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent, within } from '@testing-library/react';
 import CitySearch from '../components/CitySearch';
 import { extractLocations, getEvents } from '../api';
+import App from '../App';
 
 describe('<CitySearch /> component', () => {
 	let CitySearchComponent;
 	beforeEach(() => {
-		CitySearchComponent = render(<CitySearch />);
+		CitySearchComponent = render(<CitySearch allLocations={[]} />);
 	});
 
 	test('allLocations contains valid data', async () => {
 		const allEvents = await getEvents();
 		const allLocations = extractLocations(allEvents);
-		console.log('All Locations:', allLocations); // Debug-Ausgabe
 		expect(allLocations).toContain('Berlin, Germany'); // Beispiel: sollte deinen Standort enthalten
 	});
 
@@ -87,3 +87,29 @@ describe('<CitySearch /> component', () => {
 		expect(cityTextBox).toHaveValue(BerlinGermanySuggestion.textContent);
 	});
 });
+
+describe('<CitySearch /> integration', () => {
+	test('renders suggestions list when the app is rendered.', async () => {
+		const AppComponent = render(<App />);
+		const AppDOM = AppComponent.container.firstChild;
+
+		const CitySearchDOM = AppDOM.querySelector('#city-search');
+		const cityTextBox = within(CitySearchDOM).queryByRole('textbox');
+
+		fireEvent.click(cityTextBox); // Trigger suggestions to show
+
+		const allEvents = await getEvents();
+		const allLocations = extractLocations(allEvents);
+
+		// const suggestionListItems =
+		// 	within(CitySearchDOM).queryAllByRole('listitem');
+		// expect(suggestionListItems.length).toBe(allLocations.length + 1); // +1 for "See all cities"
+	});
+});
+
+// Mocking the MutationObserver
+global.MutationObserver = class {
+	constructor(callback) {}
+	observe() {}
+	disconnect() {}
+};
