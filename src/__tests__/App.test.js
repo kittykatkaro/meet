@@ -1,8 +1,9 @@
 // src/__tests__/App.test.js
 import React from 'react';
-import { render, within } from '@testing-library/react';
+import { fireEvent, render, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import App from '../App';
+import { getEvents } from '../api';
 
 describe('<App /> component', () => {
 	let AppDOM;
@@ -19,29 +20,46 @@ describe('<App /> component', () => {
 	});
 });
 
-// describe('<App /> integration', () => {
-// 	test('renders a list of events matching the city selected by the user', async () => {
-// 		const user = userEvent.setup();
-// 		const AppComponent = render(<App />);
-// 		const AppDOM = AppComponent.container.firstChild;
+describe('<App /> integration', () => {
+	test('renders a list of events matching the city selected by the user', async () => {
+		const AppComponent = render(<App />);
+		const AppDOM = AppComponent.container.firstChild;
 
-// 		const CitySearchDOM = AppDOM.querySelector('#city-search');
-// 		const CitySearchInput = within(CitySearchDOM).queryByRole('textbox');
+		const CitySearchDOM = AppDOM.querySelector('#city-search');
+		const CitySearchInput = within(CitySearchDOM).queryByRole('textbox');
 
-// 		await user.type(CitySearchInput, 'Berlin');
-// 		const berlinSuggestionItem =
-// 			within(CitySearchDOM).queryByText('Berlin, Germany');
-// 		await user.click(berlinSuggestionItem);
+		// Simulate typing "Berlin" into the city search input
+		fireEvent.change(CitySearchInput, { target: { value: 'Berlin' } });
 
-// 		const EventListDOM = AppDOM.querySelector('#event-list');
-// 		const allRenderedEventItems =
-// 			within(EventListDOM).queryAllByRole('listitem');
+		// Wait for the suggestion "Berlin, Germany" to appear in the DOM
+		const berlinSuggestionItem = await within(CitySearchDOM).findByText(
+			'Berlin, Germany'
+		);
+		expect(berlinSuggestionItem).toBeInTheDocument();
 
-// 		const allEvents = await getEvents();
-// 		const berlinEvents = allEvents.filter(
-// 			(event) => event.location === 'Berlin, Germany'
-// 		);
+		// Simulate clicking on "Berlin, Germany"
+		fireEvent.click(berlinSuggestionItem);
 
-// 		expect(allRenderedEventItems.length).toBe(berlinEvents.length);
-// 	});
-// });
+		// Verify that the event list renders the events for Berlin
+		const EventListDOM = AppDOM.querySelector('#event-list');
+		const allRenderedEventItems = await within(EventListDOM).queryAllByRole(
+			'listitem'
+		);
+
+		// Get all events and filter for Berlin events
+		const allEvents = await getEvents();
+		const berlinEvents = allEvents.filter((event) =>
+			event.location.includes('Berlin, Germany')
+		);
+
+		// Check that the rendered events match the Berlin events
+		expect(allRenderedEventItems.length).toBe(berlinEvents.length);
+	});
+});
+
+// Mocking the MutationObserver
+global.MutationObserver = class {
+	constructor(callback) {}
+	observe() {}
+	disconnect() {}
+};
