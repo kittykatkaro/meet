@@ -1,20 +1,31 @@
 // src/App.js
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import CitySearch from './components/CitySearch';
 import EventList from './components/EventList';
+import NumberOfEvents from './components/NumberOfEvents';
 import { extractLocations, getEvents } from './api';
 import './App.css';
-import NumberOfEvents from './components/NumberOfEvents';
 
 const App = () => {
-	const [events, setEvents] = React.useState([]);
-	const [allLocations, setAllLocations] = React.useState([]);
+	const [events, setEvents] = useState([]);
+	const [currentNOE, setCurrentNOE] = useState(32);
+	const [allLocations, setAllLocations] = useState([]);
+
+	// const fetchData = async () => {
+	// 	const allEvents = await getEvents();
+	// 	setEvents(allEvents.slice(0, currentNOE));
+	// 	setAllLocations(extractLocations(allEvents));
+	// };
+
+	// useEffect(() => {
+	// 	fetchData();
+	// }, []);
 
 	useEffect(() => {
 		getEvents().then((events) => {
 			const locations = extractLocations(events);
 			setAllLocations(locations);
-			setEvents(events);
+			setEvents(events, currentNOE);
 		});
 	}, []);
 
