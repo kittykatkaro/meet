@@ -72,7 +72,7 @@ describe('<CitySearch /> component', () => {
 		const allEvents = await getEvents();
 		const allLocations = extractLocations(allEvents);
 		CitySearchComponent.rerender(
-			<CitySearch allLocations={allLocations} />
+			<CitySearch allLocations={allLocations} setCurrentCity={() => {}} />
 		);
 
 		const cityTextBox = CitySearchComponent.queryByRole('textbox');
