@@ -49,6 +49,7 @@ const App = () => {
 
 			<NumberOfEvents />
 			<EventList events={events} />
+
 		</div>
 	);
 };
