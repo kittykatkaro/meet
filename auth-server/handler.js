@@ -75,7 +75,6 @@ module.exports.getAccessToken = async (event) => {
 };
 
 module.exports.getCalendarEvents = async (event) => {
-	// Decode authorization code extracted from the URL query
 	const access_token = decodeURIComponent(
 		`${event.pathParameters.access_token}`
 	);
@@ -90,27 +89,25 @@ module.exports.getCalendarEvents = async (event) => {
 				singleEvents: true,
 				orderBy: 'startTime',
 			},
-			(error, response) => {
-				if (error) {
-					return reject(error);
+			(err, res) => {
+				if (err) {
+					return reject(err);
 				}
-				return resolve(response);
+				return resolve(res.data.items);
 			}
 		);
 	})
 		.then((results) => {
-			// Respond with OAuth token
 			return {
 				statusCode: 200,
 				headers: {
 					'Access-Control-Allow-Origin': '*',
 					'Access-Control-Allow-Credentials': true,
 				},
-				body: JSON.stringify({ events: results.data.items }),
+				body: JSON.stringify({ events: results }),
 			};
 		})
 		.catch((error) => {
-			// Handle error
 			return {
 				statusCode: 500,
 				body: JSON.stringify(error),
