@@ -2,7 +2,8 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 
-const CitySearch = ({ allLocations }) => {
+// Ren: Receiving setCurrentCity as Props
+const CitySearch = ({ allLocations, setCurrentCity }) => {
 	const [showSuggestions, setShowSuggestions] = useState(false);
 	const [query, setQuery] = useState('');
 	const [suggestions, setSuggestions] = useState([]);
@@ -26,14 +27,15 @@ const CitySearch = ({ allLocations }) => {
 		setShowSuggestions(true); // to show the list
 	};
 
-	const handleItemClicked = (value) => {
-		setQuery(value);
+	const handleItemClicked = (city) => {
+		setQuery(city);
+		setCurrentCity(city)
 		setShowSuggestions(false); // to hide the list
 	};
 
 	return (
 		<div id="city-search">
-			<label htmlFor="citySearchText">Your City</label>
+			{/* <label htmlFor="citySearchText">Your City</label> */}
 			<input
 				id="citySearchText"
 				type="text"

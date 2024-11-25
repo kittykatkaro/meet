@@ -1,7 +1,6 @@
 // src/__tests__/App.test.js
 import React from 'react';
-import { fireEvent, render, within } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { fireEvent, render, within, waitFor } from '@testing-library/react';
 import App from '../App';
 import { getEvents } from '../api';
 
@@ -27,33 +26,42 @@ describe('<App /> integration', () => {
 
 		const CitySearchDOM = AppDOM.querySelector('#city-search');
 		const CitySearchInput = within(CitySearchDOM).queryByRole('textbox');
-
+	
 		// Simulate typing "Berlin" into the city search input
 		fireEvent.change(CitySearchInput, { target: { value: 'Berlin' } });
-
+	
 		// Wait for the suggestion "Berlin, Germany" to appear in the DOM
 		const berlinSuggestionItem = await within(CitySearchDOM).findByText(
 			'Berlin, Germany'
 		);
 		expect(berlinSuggestionItem).toBeInTheDocument();
-
+	
 		// Simulate clicking on "Berlin, Germany"
 		fireEvent.click(berlinSuggestionItem);
+	
+		//Ren: I had a question about fireEvent.click, so I searched for information on it. Interestingly, ChatGPT pointed me toward the waitFor method, what a lifesaver! 😄
+		//Ren: Wait for the event list to update
 
-		// Verify that the event list renders the events for Berlin
-		const EventListDOM = AppDOM.querySelector('#event-list');
-		const allRenderedEventItems = await within(EventListDOM).queryAllByRole(
-			'listitem'
-		);
-
-		// Get all events and filter for Berlin events
-		const allEvents = await getEvents();
-		const berlinEvents = allEvents.filter((event) =>
-			event.location.includes('Berlin, Germany')
-		);
-
-		// Check that the rendered events match the Berlin events
-		expect(allRenderedEventItems.length).toBe(berlinEvents.length);
+	  // Add a small delay to allow for state updates
+		await waitFor(async () => {
+			const EventListDOM = AppDOM.querySelector('#event-list');
+			const allRenderedEventItems = within(EventListDOM).queryAllByRole('listitem');
+			
+			// Get all events and filter for Berlin events
+			const allEvents = await getEvents();
+			const berlinEvents = allEvents.filter(
+			(event) => event.location === 'Berlin, Germany'
+			);
+	
+			// Check that the rendered events match the Berlin events
+			expect(allRenderedEventItems.length).toBe(berlinEvents.length);
+			
+			// Additional check to verify the content
+			// Ren: Added location to the Events, since we are checking here.
+			allRenderedEventItems.forEach((event) => {
+			expect(event.textContent).toContain('Berlin, Germany');
+			});
+		});
 	});
 });
 
