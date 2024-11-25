@@ -39,7 +39,7 @@
   border: 2px solid black;
   border-width: 1px 1px 0px 1px;
   border-radius: 10px;
-  background-color: #54f6ff;
+  background-color: #FFFAF0 ;
   list-style: none;
   display: flex;
   justify-content: space-around;
@@ -55,7 +55,8 @@
   text-align: center;
   padding: 15px;
   margin: -14px 5px 10px 5px;
-  background-color: #b8fbff;
+  background-color: #FFFAF0
+  ;
   border: 2px solid black;
   border-width: 0px 1px 1px 1px;
   border-radius: 0px 10px 10px 10px;
@@ -63,17 +64,17 @@
 /* Ren: https://css3buttongenerator.com/ */
 .showDetailsButton {
   height: 40px;
-  background: #f6ff47;
-  background-image: -webkit-linear-gradient(top, #f6ff47, #c9c200);
-  background-image: -moz-linear-gradient(top, #f6ff47, #c9c200);
-  background-image: -ms-linear-gradient(top, #f6ff47, #c9c200);
-  background-image: -o-linear-gradient(top, #f6ff47, #c9c200);
-  background-image: linear-gradient(to bottom, #f6ff47, #c9c200);
+  background: #E6E6FA;
+  background-image: -webkit-linear-gradient(top, #E6E6FA, #9932CC);
+  background-image: -moz-linear-gradient(top, #E6E6FA, #9932CC);
+  background-image: -ms-linear-gradient(top, #E6E6FA, #9932CC);
+  background-image: -o-linear-gradient(top, #E6E6FA, #9932CC);
+  background-image: linear-gradient(to bottom, #E6E6FA, #9932CC);
   -webkit-border-radius: 28;
   -moz-border-radius: 28;
   border-radius: 28px;
   font-family: Arial;
-  color: #000000;
+  color: #fff;
   font-size: 14px;
   padding: 10px 20px 10px 20px;
   text-decoration: none;
