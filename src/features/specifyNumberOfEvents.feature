@@ -1,11 +1,10 @@
-Feature: Specify Number of Events
+Feature: Specify number of events
+    Scenario: When user hasn't specified a number, 35 is the default number
+        Given the user hasn't specified or filtered the number of events
+        When the user sees the list of events
+        Then the default number of displayed events will be 35
 
-    Scenario: User does not type in the number-of-events field
-    Given I am a user,
-    When I have not typed a number on number-of-events field
-    Then I should see a list of 32 events
-
-    Scenario: User types a number in the number-of-events field
-    Given I am a user,
-    When I type a number on number-of-events field
-    Then I should be able to see a list of events with the number I typed as the length
+    Scenario: User can change the number of events they want to see.
+        Given the user has events displayed
+        When the user chooses to change the number of events displayed
+        Then the number of events displayed will update to the number the user selected

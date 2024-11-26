@@ -1,32 +1,75 @@
-import { defineFeature, loadFeature } from 'jest-cucumber';
+/* eslint-disable testing-library/prefer-screen-queries */
+/* eslint-disable testing-library/no-node-access */
+import { loadFeature, defineFeature } from 'jest-cucumber';
+import App from '../App';
+import { render, waitFor, within } from '@testing-library/react';
+import React from 'react';
+import { fireEvent } from '@testing-library/react';
 
 const feature = loadFeature('./src/features/specifyNumberOfEvents.feature');
 
 defineFeature(feature, (test) => {
-	test('User does not type in the number-of-events field', ({
+	test("When user hasn't specified a number, 35 is the default number", ({
 		given,
 		when,
 		then,
 	}) => {
-		given('I am a user,', () => {});
+		let AppComponent;
+		let eventList;
+		given(
+			"the user hasn't specified or filtered the number of events",
+			() => {
+				AppComponent = render(<App />);
+			}
+		);
 
-		when('I have not typed a number on number-of-events field', () => {});
+		when('the user sees the list of events', async () => {
+			const AppDOM = AppComponent.container.firstChild;
+			await waitFor(() => {
+				eventList = within(AppDOM).queryAllByRole('listitem');
+				expect(eventList[0]).toBeTruthy();
+			});
+		});
 
-		then(/^I should see a list of (\d+) events$/, (arg0) => {});
+		then(/^the default number of displayed events will be (\d+)$/, () => {
+			expect(eventList.length).toEqual(35);
+		});
 	});
 
-	test('User types a number in the number-of-events field', ({
+	test('User can change the number of events they want to see.', ({
 		given,
 		when,
 		then,
 	}) => {
-		given('I am a user,', () => {});
+		let AppComponent;
+		let numberOfEventsInput;
+		given('the user has events displayed', async () => {
+			AppComponent = render(<App />);
+			const AppDOM = AppComponent.container.firstChild;
+			await waitFor(() => {
+				const eventList = within(AppDOM).queryAllByRole('listitem');
+				expect(eventList[0]).toBeTruthy();
+			});
+			numberOfEventsInput =
+				within(AppDOM).getByLabelText('Number of Events');
+		});
 
-		when('I type a number on number-of-events field', () => {});
+		when(
+			'the user chooses to change the number of events displayed',
+			async () => {
+				fireEvent.change(numberOfEventsInput, {
+					target: { value: '10' },
+				});
+			}
+		);
 
 		then(
-			'I should be able to see a list of events with the number I typed as the length',
-			() => {}
+			'the number of events displayed will update to the number the user selected',
+			() => {
+				const AppDOM = AppComponent.container.firstChild;
+				const eventList = within(AppDOM).queryAllByRole('listitem');
+				expect(eventList.length).toEqual(35);
+			}
 		);
 	});
 });
