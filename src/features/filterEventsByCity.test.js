@@ -3,6 +3,7 @@ import { loadFeature, defineFeature } from 'jest-cucumber';
 import { render, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import App from '../App';
+import { getEvents } from '../api';
 
 const feature = loadFeature('./src/features/filterEventsByCity.feature');
 
@@ -55,7 +56,11 @@ defineFeature(feature, (test) => {
 
 		then(
 			'the user should recieve a list of cities (suggestions) that match what they’ve typed',
-			() => {}
+			async () => {
+				const suggestionListItems =
+					within(CitySearchDOM).queryAllByRole('listitem');
+				expect(suggestionListItems).toHaveLength(2);
+			}
 		);
 	});
 
@@ -78,21 +83,43 @@ defineFeature(feature, (test) => {
 			await user.type(citySearchInput, 'Berlin');
 		});
 
-		and('the list of suggested cities is showing', () => {});
+		let suggestionListItems;
+		and('the list of suggested cities is showing', () => {
+			suggestionListItems =
+				within(CitySearchDOM).queryAllByRole('listitem');
+			expect(suggestionListItems).toHaveLength(2);
+		});
 
 		when(
 			'the user selects a city (e.g., “Berlin, Germany”) from the list',
-			() => {}
+			async () => {
+				const user = userEvent.setup();
+				await user.click(suggestionListItems[0]);
+			}
 		);
 
 		then(
 			'their city should be changed to that city (i.e., “Berlin, Germany”)',
-			() => {}
+			() => {
+				expect(citySearchInput.value).toBe('Berlin, Germany');
+			}
 		);
 
 		and(
 			'the user should receive a list of upcoming events in that city',
-			() => {}
+			async () => {
+				const EventListDOM = AppDOM.querySelector('#event-list');
+				const EventListItems =
+					within(EventListDOM).queryAllByRole('listitem');
+				const allEvents = await getEvents();
+
+				//filterting list of all eventy down to only events in Germany
+				// citySearchInput.value should be 'Berlin, Germany'
+				const berlinEvents = allEvents.filter(
+					(event) => event.location === citySearchInput.value
+				);
+				expect(EventListItems).toHaveLength(berlinEvents.length);
+			}
 		);
 	});
 });
