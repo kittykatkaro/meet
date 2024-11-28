@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 // src/components/CitySearch.js
 import React from 'react';
 import { useState, useEffect } from 'react';
