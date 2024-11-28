@@ -1,3 +1,9 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-useless-constructor */
+/* eslint-disable testing-library/no-node-access */
+/* eslint-disable testing-library/render-result-naming-convention */
+/* eslint-disable testing-library/prefer-screen-queries */
+/* eslint-disable testing-library/no-render-in-setup */
 // src/__tests__/CitySearch.test.js
 import React from 'react';
 import { render, fireEvent, within } from '@testing-library/react';
@@ -8,7 +14,9 @@ import App from '../App';
 describe('<CitySearch /> component', () => {
 	let CitySearchComponent;
 	beforeEach(() => {
-		CitySearchComponent = render(<CitySearch allLocations={[]} />);
+		CitySearchComponent = render(
+			<CitySearch allLocations={[]} setInfoAlert={() => {}} />
+		);
 	});
 
 	test('allLocations contains valid data', async () => {
@@ -40,7 +48,7 @@ describe('<CitySearch /> component', () => {
 		const allEvents = await getEvents();
 		const allLocations = extractLocations(allEvents);
 		CitySearchComponent.rerender(
-			<CitySearch allLocations={allLocations} />
+			<CitySearch allLocations={allLocations} setInfoAlert={() => {}} />
 		);
 
 		// user types "Berlin" in city textbox
@@ -72,7 +80,11 @@ describe('<CitySearch /> component', () => {
 		const allEvents = await getEvents();
 		const allLocations = extractLocations(allEvents);
 		CitySearchComponent.rerender(
-			<CitySearch allLocations={allLocations} setCurrentCity={() => {}} />
+			<CitySearch
+				allLocations={allLocations}
+				setCurrentCity={() => {}}
+				setInfoAlert={() => {}}
+			/>
 		);
 
 		const cityTextBox = CitySearchComponent.queryByRole('textbox');

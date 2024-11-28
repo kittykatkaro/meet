@@ -1,5 +1,8 @@
-import { fireEvent, render } from '@testing-library/react';
+/* eslint-disable testing-library/prefer-screen-queries */
+/* eslint-disable testing-library/no-render-in-setup */
+import { render } from '@testing-library/react';
 import NumberOfEvents from '../components/NumberOfEvents';
+import userEvent from '@testing-library/user-event';
 import React from 'react';
 
 describe('<NumberOfEvents /> component', () => {
@@ -10,6 +13,7 @@ describe('<NumberOfEvents /> component', () => {
 
 		NumberOfEventsComponent = render(
 			<NumberOfEvents
+				currentNOE={32}
 				setNumberOfEvents={() => {}}
 				setCurrentNOE={() => {}}
 				setErrorAlert={setErrorAlert}
@@ -31,8 +35,8 @@ describe('<NumberOfEvents /> component', () => {
 
 	test('update numberOfEvents when user types', async () => {
 		const numberOfEvents = NumberOfEventsComponent.queryByRole('textbox');
-		fireEvent.change(numberOfEvents, { target: { value: '10' } });
+		const user = userEvent.setup();
+		await user.type(numberOfEvents, '{backspace}{backspace}10');
 		expect(numberOfEvents).toHaveValue('10');
-		//expect(setErrorAlert).toHaveBeenCalledWith("");
 	});
 });
