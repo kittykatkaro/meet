@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-const NumberOfEvents = ({ setCurrentNOE, setErrorAlert }) => {
+const NumberOfEvents = ({ currentNOE, setCurrentNOE, setErrorAlert }) => {
+	const [numberOfEvents, setNumberOfEvents] = useState(currentNOE);
+
 	const handleInputChanged = (event) => {
 		const value = event.target.value;
 
@@ -10,6 +12,7 @@ const NumberOfEvents = ({ setCurrentNOE, setErrorAlert }) => {
 		} else {
 			setErrorAlert('');
 			setCurrentNOE(value);
+			setNumberOfEvents(value);
 		}
 	};
 
@@ -22,6 +25,7 @@ const NumberOfEvents = ({ setCurrentNOE, setErrorAlert }) => {
 				className="number"
 				placeholder="Enter number of events"
 				onChange={handleInputChanged}
+				value={numberOfEvents}
 			/>
 		</div>
 	);
