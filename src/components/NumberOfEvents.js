@@ -1,11 +1,16 @@
 import React from 'react';
 
-const NumberOfEvents = () => {
-	const [numberOfEvents, setNumberOfEvents] = React.useState(32);
-
+const NumberOfEvents = ({ setCurrentNOE, setErrorAlert }) => {
 	const handleInputChanged = (event) => {
 		const value = event.target.value;
-		setNumberOfEvents(value);
+
+		if (isNaN(value) || value < 0) {
+			setErrorAlert('Invalid numbers');
+			return;
+		} else {
+			setErrorAlert('');
+			setCurrentNOE(value);
+		}
 	};
 
 	return (
@@ -16,7 +21,6 @@ const NumberOfEvents = () => {
 				type="text"
 				className="number"
 				placeholder="Enter number of events"
-				value={numberOfEvents}
 				onChange={handleInputChanged}
 			/>
 		</div>
