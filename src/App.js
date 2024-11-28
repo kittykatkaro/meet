@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 // src/App.js
 import React, { useEffect, useState } from 'react';
 import CitySearch from './components/CitySearch';
@@ -74,6 +75,7 @@ const App = () => {
 			/>
 
 			<NumberOfEvents
+				currentNOE={currentNOE}
 				setCurrentNOE={setCurrentNOE}
 				setErrorAlert={setErrorAlert}
 			/>
