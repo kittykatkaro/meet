@@ -15,6 +15,11 @@ const oAuth2Client = new google.auth.OAuth2(
   redirects_uris[0]
 );
 
+const corsHeaders = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Credentials': true,
+};
+
 module.exports.getAuthURL = async () => {
   const authUrl = oAuth2Client.generateAuthUrl({
     access_type: 'offline',
@@ -23,10 +28,7 @@ module.exports.getAuthURL = async () => {
 
   return {
     statusCode: 200,
-    headers: {
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Credentials': true,
-    },
+    headers: corsHeaders,
     body: JSON.stringify({
       authUrl,
     }),
@@ -47,62 +49,50 @@ module.exports.getAccessToken = async (event) => {
     .then((results) => {
       return {
         statusCode: 200,
-        headers: {
-          'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Credentials': true,
-        },
+        headers: corsHeaders,
         body: JSON.stringify(results),
       };
     })
     .catch((error) => {
       return {
         statusCode: 500,
+        headers: corsHeaders,
         body: JSON.stringify(error),
       };
     });
 };
 
 module.exports.getCalendarEvents = async (event) => {
-  const access_token = decodeURIComponent(
-    `${event.pathParameters.access_token}`
-  );
-  oAuth2Client.setCredentials({ access_token });
-
-  return new Promise((resolve, reject) => {
-    calendar.events.list(
-      {
-        calendarId: CALENDAR_ID,
-        auth: oAuth2Client,
-        timeMin: new Date().toISOString(),
-        singleEvents: true,
-        orderBy: 'startTime',
-      },
-      (error, response) => {
-        if (error) {
-          console.error('Error while fetching calendar events:', error);
-          reject(error);
-        } else {
-          console.log('Calendar API Response:', response);
-          resolve(response);
-        }
-      }
+  try {
+    const access_token = decodeURIComponent(
+      `${event.pathParameters.access_token}`
     );
-  })
+    oAuth2Client.setCredentials({ access_token });
 
-    .then((results) => {
-      return {
-        statusCode: 200,
-        headers: {
-          'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Credentials': true,
+    const response = await new Promise((resolve, reject) => {
+      calendar.events.list(
+        {
+          calendarId: CALENDAR_ID,
+          auth: oAuth2Client,
+          timeMin: new Date().toISOString(),
+          singleEvents: true,
+          orderBy: 'startTime',
         },
-        body: JSON.stringify({ events: results.data.items }),
-      };
-    })
-    .catch((error) => {
-      return {
-        statusCode: 500,
-        body: JSON.stringify(error),
-      };
+        (error, response) => (error ? reject(error) : resolve(response))
+      );
     });
+
+    return {
+      statusCode: 200,
+      headers: corsHeaders,
+      body: JSON.stringify({ events: response.data.items }),
+    };
+  } catch (error) {
+    console.error('Error fetching calendar events:', error);
+    return {
+      statusCode: 500,
+      headers: corsHeaders,
+      body: JSON.stringify({ error: 'Failed to fetch events' }),
+    };
+  }
 };

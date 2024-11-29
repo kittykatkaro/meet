@@ -54,18 +54,29 @@ export const getEvents = async () => {
 
   const token = await getAccessToken();
 
+  console.log('TOKEN$$$ : ', token);
+
   if (token) {
     removeQuery();
     const url =
-      'https://kxdscv4vmc.execute-api.eu-central-1.amazonaws.com/dev/api/calendar-events' +
+      'https://kxdscv4vmc.execute-api.eu-central-1.amazonaws.com/dev/api/get-events' +
       '/' +
       token;
-    const response = await fetch(url);
-    const result = await response.json();
-    if (result) {
-      localStorage.setItem('lastEvents', JSON.stringify(result.events));
-      return result.events;
-    } else return null;
+
+    console.log('URL$$$ : ', url);
+    try {
+      const response = await fetch(url);
+      const result = await response.json();
+      console.log('RESULT$$$ : ', result);
+
+      if (result) {
+        console.log('SETTING events$$', result.events);
+        localStorage.setItem('lastEvents', JSON.stringify(result.events));
+        return result.events;
+      } else return null;
+    } catch (error) {
+      console.log('Error while fetching events', error);
+    }
   }
 };
 
