@@ -1,5 +1,3 @@
-// src/api.js
-
 import mockData from './mock-data';
 
 export const extractLocations = (events) => {
@@ -14,6 +12,19 @@ const checkToken = async (accessToken) => {
 	);
 	const result = await response.json();
 	return result;
+};
+
+const getToken = async (code) => {
+	const encodeCode = encodeURIComponent(code);
+	const response = await fetch(
+		'https://kxdscv4vmc.execute-api.eu-central-1.amazonaws.com/dev/api/token' +
+			'/' +
+			encodeCode
+	);
+	const { access_token } = await response.json();
+	access_token && localStorage.setItem('access_token', access_token);
+
+	return access_token;
 };
 
 const removeQuery = () => {
@@ -31,19 +42,6 @@ const removeQuery = () => {
 	}
 };
 
-const getToken = async (code) => {
-	const encodeCode = encodeURIComponent(code);
-	const response = await fetch(
-		'https://py1asmcx3g.execute-api.eu-central-1.amazonaws.com/dev/api/token/' +
-			'/' +
-			encodeCode
-	);
-	const { access_token } = await response.json();
-	access_token && localStorage.setItem('access_token', access_token);
-
-	return access_token;
-};
-
 export const getEvents = async () => {
 	if (window.location.href.startsWith('http://localhost')) {
 		return mockData;
@@ -59,7 +57,7 @@ export const getEvents = async () => {
 	if (token) {
 		removeQuery();
 		const url =
-			'https://py1asmcx3g.execute-api.eu-central-1.amazonaws.com/dev/api/calendar-events' +
+			'https://kxdscv4vmc.execute-api.eu-central-1.amazonaws.com/dev/api/calendar-events' +
 			'/' +
 			token;
 		const response = await fetch(url);
@@ -81,7 +79,7 @@ export const getAccessToken = async () => {
 		const code = await searchParams.get('code');
 		if (!code) {
 			const response = await fetch(
-				'https://py1asmcx3g.execute-api.eu-central-1.amazonaws.com/dev/api/get-auth-url'
+				'https://kxdscv4vmc.execute-api.eu-central-1.amazonaws.com/dev/api/get-auth-url'
 			);
 			const result = await response.json();
 			const { authUrl } = result;
