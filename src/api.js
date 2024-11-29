@@ -17,7 +17,7 @@ const checkToken = async (accessToken) => {
 const getToken = async (code) => {
   const encodeCode = encodeURIComponent(code);
   const response = await fetch(
-    'https://kxdscv4vmc.execute-api.eu-central-1.amazonaws.com/dev/api/token' +
+    'https://o7qrzvbgsd.execute-api.eu-central-1.amazonaws.com/dev/api/token' +
       '/' +
       encodeCode
   );
@@ -59,7 +59,7 @@ export const getEvents = async () => {
   if (token) {
     removeQuery();
     const url =
-      'https://kxdscv4vmc.execute-api.eu-central-1.amazonaws.com/dev/api/get-events' +
+      'https://o7qrzvbgsd.execute-api.eu-central-1.amazonaws.com/dev/api/get-events' +
       '/' +
       token;
 
@@ -90,7 +90,7 @@ export const getAccessToken = async () => {
     const code = await searchParams.get('code');
     if (!code) {
       const response = await fetch(
-        'https://kxdscv4vmc.execute-api.eu-central-1.amazonaws.com/dev/api/get-auth-url'
+        'https://o7qrzvbgsd.execute-api.eu-central-1.amazonaws.com/dev/api/get-auth-url'
       );
       const result = await response.json();
       const { authUrl } = result;
