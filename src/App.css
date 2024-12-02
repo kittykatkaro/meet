@@ -28,6 +28,14 @@
   color: #61dafb;
 }
 
+h1 {
+  color: #65297e;
+}
+
+h2 {
+  color: #65297e;
+}
+
 /* Ren: Event List - Feel free to adjust it later */
 #event-list {
   padding: 20px;
@@ -36,10 +44,10 @@
 .event {
   padding: 8px;
   margin: 10px 5px 10px 5px;
-  border: 2px solid black;
+  border: 2px solid #500c6d;
   border-width: 1px 1px 0px 1px;
   border-radius: 10px;
-  background-color: #FFFAF0 ;
+  background-color: #fffeff ;
   list-style: none;
   display: flex;
   justify-content: space-around;
@@ -49,15 +57,16 @@
   width: 280px;
 }
 .event_date {
-  color: #832296;
+  color: #65297e
+
+  ;
 }
 .details {
   text-align: center;
   padding: 15px;
   margin: -14px 5px 10px 5px;
-  background-color: #FFFAF0
-  ;
-  border: 2px solid black;
+  background-color: #fffeff;
+  border: 2px solid #500c6d;
   border-width: 0px 1px 1px 1px;
   border-radius: 0px 10px 10px 10px;
 }
@@ -65,11 +74,11 @@
 .showDetailsButton {
   height: 40px;
   background: #E6E6FA;
-  background-image: -webkit-linear-gradient(top, #E6E6FA, #9932CC);
-  background-image: -moz-linear-gradient(top, #E6E6FA, #9932CC);
-  background-image: -ms-linear-gradient(top, #E6E6FA, #9932CC);
-  background-image: -o-linear-gradient(top, #E6E6FA, #9932CC);
-  background-image: linear-gradient(to bottom, #E6E6FA, #9932CC);
+  background-image: -webkit-linear-gradient(top, #E6E6FA, #65297e);
+  background-image: -moz-linear-gradient(top, #E6E6FA, #65297e);
+  background-image: -ms-linear-gradient(top, #E6E6FA, #65297e);
+  background-image: -o-linear-gradient(top, #E6E6FA, #65297e);
+  background-image: linear-gradient(to bottom, #E6E6FA, #65297e);
   -webkit-border-radius: 28;
   -moz-border-radius: 28;
   border-radius: 28px;
@@ -80,12 +89,12 @@
   text-decoration: none;
 }
 .showDetailsButton:hover {
-  background: #3cb0fd;
-  background-image: -webkit-linear-gradient(top, #3cb0fd, #3498db);
-  background-image: -moz-linear-gradient(top, #3cb0fd, #3498db);
-  background-image: -ms-linear-gradient(top, #3cb0fd, #3498db);
-  background-image: -o-linear-gradient(top, #3cb0fd, #3498db);
-  background-image: linear-gradient(to bottom, #3cb0fd, #3498db);
+  background: #f4dafc;
+  background-image: -webkit-linear-gradient(top, #f4dafc, #caa5d7);
+  background-image: -moz-linear-gradient(top, #f4dafc, #caa5d7);
+  background-image: -ms-linear-gradient(top, #f4dafc, #caa5d7);
+  background-image: -o-linear-gradient(top, #f4dafc, #caa5d7);
+  background-image: linear-gradient(to bottom, #f4dafc, #caa5d7);
   text-decoration: none;
 }
 @keyframes App-logo-spin {
