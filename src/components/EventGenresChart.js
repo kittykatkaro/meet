@@ -1,14 +1,7 @@
 // src/components/EventGenresChart.js
 
 import { useState, useEffect } from 'react';
-import {
-	PieChart,
-	Pie,
-	Sector,
-	Legend,
-	Cell,
-	ResponsiveContainer,
-} from 'recharts';
+import { PieChart, Pie, Legend, Cell, ResponsiveContainer } from 'recharts';
 
 const EventGenresChart = ({ events }) => {
 	const [data, setData] = useState([]);
@@ -57,7 +50,7 @@ const EventGenresChart = ({ events }) => {
 		) : null;
 	};
 
-	const colors = ['#5F9EA0', '#66CCCC', '#9B59B6', '#DA70D6', '#3e40d6'];
+	const colors = ['#500c6d', '#79428f', '#a173b3', '#caa5d7', '#f4dafc'];
 
 	return (
 		<ResponsiveContainer width="99%" height={400}>
