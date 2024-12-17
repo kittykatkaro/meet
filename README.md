@@ -108,7 +108,6 @@ This project is licensed under the **MIT License**.
 ## Author
 **Kittykatkaro**  
 [GitHub Profile](https://github.com/kittykatkaro)  
-[LinkedIn](#) _(Replace with your LinkedIn profile URL)_
 
 ---
 
