@@ -1,99 +1,115 @@
 # Meet App
 
-Meet App is a progressive web application (PWA) that allows users to view and manage events. It provides offline access, data visualization through charts, and allows users to customize the number of events displayed on screen. Additionally, users can quickly access the app by adding a shortcut to their home screen.
+This repository contains the **Meet App**, a serverless, progressive web application (PWA) that provides a smooth and interactive experience for users to view and filter upcoming events. The app integrates with the Google Calendar API to display real-time event data.
+
+---
 
 ## Table of Contents
+1. [Project Overview](#project-overview)
+2. [Features](#features)
+3. [Technologies Used](#technologies-used)
+4. [Setup and Installation](#setup-and-installation)
+5. [Usage](#usage)
+6. [Testing](#testing)
+7. [License](#license)
+8. [Author](#author)
 
-- [Project Overview](#project-overview)
-- [User Stories](#user-stories)
-- [Gherkin Scenarios](#gherkin-scenarios)
+---
 
 ## Project Overview
+The **Meet App** allows users to view a list of upcoming events pulled directly from their Google Calendar. It offers options to filter events by city, display event details, and work seamlessly offline, making it ideal for users on the go.
 
-Meet App is designed to make it easy for users to stay informed about events, whether they are online or offline. With features like event detail toggling, event customization, and offline functionality, users can personalize their experience and access data quickly and conveniently. This project is a PWA, so it can be installed on mobile devices and accessed with a shortcut from the home screen.
+This project was built as part of learning serverless architecture and progressive web application development.
 
-## User Stories
+---
 
-1. **Filter eveny by city**
-   - As a **user**, I should be able to **filter events by city** so that I can quickly **find events happening in a specific location** that interests me.
+## Features
+- **Google Calendar Integration**: Fetches real-time event data from the Google Calendar API.
+- **Event Filtering**: Filter events based on location.
+- **Event Details**: View details like date, time, and description of events.
+- **Progressive Web App (PWA)**: Installable on mobile and desktop devices.
+- **Offline Capability**: Works offline using service workers.
+- **Responsive Design**: Optimized for all devices (mobile, tablet, and desktop).
 
-2. **Show/Hide Event Details**  
-   - As a **user**, I should be able to **show or hide event details** so that **I can view only the information I need at any given moment**.
+---
 
-2. **Specify Number of Events**  
-   - As a **user**, I should be able to **specify the number of events displayed** so that **I can customize the amount of information I see based on my preference or screen size**.
+## Technologies Used
+- **React** - Component-based front-end framework.
+- **Google Calendar API** - Integration for event data.
+- **Serverless Functions** - Backend functionality using AWS Lambda.
+- **Jest & Cucumber** - For testing components and features.
+- **Enzyme** - Testing utilities for React.
+- **CSS** - Styling the user interface.
+- **Service Workers** - Enabling offline functionality.
 
-3. **Use the App When Offline**  
-   - As a **user**, I should be able to **use the app even when I’m offline** so that **I can still access important information about events without an internet connection**.
+---
 
-4. **Add an App Shortcut to the Home Screen**  
-   - As a **user**, I should be able to **add a shortcut for the app to my home screen** so that **I can quickly access the app without having to open my browser**.
+## Setup and Installation
+To run the Meet App locally, follow these steps:
 
-5. **Display Charts Visualizing Event Details**  
-   - As a **user**, I should be able to **see charts that visualize event details** so that **I can easily interpret key information and make informed decisions**.
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/kittykatkaro/meet.git
+   cd meet
+   ```
 
-## Gherkin Scenarios
+2. **Install dependencies**:
+   ```bash
+   npm install
+   ```
 
-### Filter events by City
-  ```gherkin
-Feature: Filter events by city
+3. **Set up Google Calendar API**:
+   - Follow [Google Calendar API documentation](https://developers.google.com/calendar) to obtain API credentials.
+   - Add the credentials to your environment configuration.
 
-Scenario: User filters events by a selected city
-  Given the user is viewing a list of all events
-  And the user wants to see events in a specific city
-  When the user selects a city from the city filter options
-  Then only events from the selected city should be displayed in the list
-  And events from other cities should be hidden
-```
+4. **Start the development server**:
+   ```bash
+   npm start
+   ```
+   The app will run at `http://localhost:3000`.
 
-### Show/Hide Event Details
-   ```gherkin
-   Feature: Show or hide event details
+5. **Build for production**:
+   ```bash
+   npm run build
+   ```
 
-   Scenario: User toggles event details visibility
-     Given the user is viewing a list of events
-     When the user selects "Show Details" on an event
-     Then the event details should be displayed
-     And the user can select "Hide Details" to collapse the details again
-```
+---
 
-### Specify Number of Events
-```gherkin
-Feature: Specify the number of events displayed
+## Usage
+- Open the app in a browser.
+- View the list of upcoming events.
+- Use the filter to search for events by city.
+- Click on events to view details.
+- Install the app as a PWA for offline access.
 
-Scenario: User sets the number of events to display
-  Given the user wants to control how many events are shown on the page
-  When the user specifies a number of events to display
-  Then the app should display only that specified number of events
-```
+---
 
-### Use the App when Offline
-```gherkin
-Feature: Offline access for the app
+## Testing
+The project includes unit and end-to-end testing:
 
-Scenario: User accesses the app while offline
-  Given the user has previously accessed the app with an internet connection
-  And has saved data locally
-  When the user opens the app without an internet connection
-  Then the user should be able to view event details offline
-```
+- **Run Unit Tests**:
+   ```bash
+   npm test
+   ```
+- **Run End-to-End Tests**:
+   ```bash
+   npm run test:e2e
+   ```
 
-### Add an App Shortcut to the Home Screen 
-```gherkin
-Feature: Add app shortcut to the home screen
+The app uses **Jest** and **Cucumber** for behavior-driven testing.
 
-Scenario: User adds a shortcut to the home screen
-  Given the user wants quick access to the app
-  When the user chooses the "Add to Home Screen" option
-  Then a shortcut to the app should be added to the user's home screen
-```
+---
 
-### Display Charts Visualizing Event Details
-```gherkin
-Feature: Display charts for event details visualization
+## License
+This project is licensed under the **MIT License**.
 
-Scenario: User views event details with visual charts
-  Given the user wants a visual summary of event data
-  When the user views an event with charts enabled
-  Then the app should display relevant charts summarizing event details
-```
+---
+
+## Author
+**Kittykatkaro**  
+[GitHub Profile](https://github.com/kittykatkaro)  
+[LinkedIn](#) _(Replace with your LinkedIn profile URL)_
+
+---
+
+Thank you for exploring the Meet App! 📅✨
